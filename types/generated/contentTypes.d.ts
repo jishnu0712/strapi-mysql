@@ -519,6 +519,7 @@ export interface ApiAttendanceAttendance extends Struct.CollectionTypeSchema {
     singularName: 'attendance';
     pluralName: 'attendances';
     displayName: 'Attendance';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -529,6 +530,9 @@ export interface ApiAttendanceAttendance extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     >;
     time: Schema.Attribute.DateTime;
+    remarks: Schema.Attribute.Enumeration<
+      ['present', 'absent', 'late', 'on_leave']
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -540,6 +544,34 @@ export interface ApiAttendanceAttendance extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::attendance.attendance'
+    >;
+  };
+}
+
+export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
+  collectionName: 'departments';
+  info: {
+    singularName: 'department';
+    pluralName: 'departments';
+    displayName: 'Department';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['department', 'class']>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department.department'
     >;
   };
 }
@@ -949,6 +981,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about.about': ApiAboutAbout;
       'api::attendance.attendance': ApiAttendanceAttendance;
+      'api::department.department': ApiDepartmentDepartment;
       'api::global.global': ApiGlobalGlobal;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;

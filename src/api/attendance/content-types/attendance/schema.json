@@ -4,7 +4,8 @@
   "info": {
     "singularName": "attendance",
     "pluralName": "attendances",
-    "displayName": "Attendance"
+    "displayName": "Attendance",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,6 +19,15 @@
     },
     "time": {
       "type": "datetime"
+    },
+    "remarks": {
+      "type": "enumeration",
+      "enum": [
+        "present",
+        "absent",
+        "late",
+        "on_leave"
+      ]
     }
   }
 }
