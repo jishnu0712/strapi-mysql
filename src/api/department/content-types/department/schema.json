@@ -20,6 +20,12 @@
         "department",
         "class"
       ]
+    },
+    "users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "departments"
     }
   }
 }

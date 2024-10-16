@@ -441,7 +441,6 @@ export interface PluginUsersPermissionsUser
     displayName: 'User';
   };
   options: {
-    timestamps: true;
     draftAndPublish: false;
   };
   attributes: {
@@ -469,6 +468,18 @@ export interface PluginUsersPermissionsUser
     role: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.role'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    mobile: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 10;
+        maxLength: 10;
+      }>;
+    profile_pic: Schema.Attribute.Media<'images'>;
+    qualification: Schema.Attribute.String & Schema.Attribute.Required;
+    departments: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::department.department'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -561,6 +572,10 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
   attributes: {
     Name: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<['department', 'class']>;
+    users: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
