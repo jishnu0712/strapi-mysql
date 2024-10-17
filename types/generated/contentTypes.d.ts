@@ -481,6 +481,10 @@ export interface PluginUsersPermissionsUser
       'manyToMany',
       'api::department.department'
     >;
+    institution: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::institution.institution'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -565,6 +569,7 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
     singularName: 'department';
     pluralName: 'departments';
     displayName: 'Department';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -575,6 +580,10 @@ export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
     users: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
+    >;
+    institution: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::institution.institution'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -616,6 +625,42 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::global.global'>;
+  };
+}
+
+export interface ApiInstitutionInstitution extends Struct.CollectionTypeSchema {
+  collectionName: 'institutions';
+  info: {
+    singularName: 'institution';
+    pluralName: 'institutions';
+    displayName: 'Institution';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    instituition_name: Schema.Attribute.Text;
+    address: Schema.Attribute.String;
+    users: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    departments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department.department'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::institution.institution'
+    >;
   };
 }
 
@@ -998,6 +1043,7 @@ declare module '@strapi/strapi' {
       'api::attendance.attendance': ApiAttendanceAttendance;
       'api::department.department': ApiDepartmentDepartment;
       'api::global.global': ApiGlobalGlobal;
+      'api::institution.institution': ApiInstitutionInstitution;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

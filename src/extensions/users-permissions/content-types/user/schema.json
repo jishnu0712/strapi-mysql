@@ -91,6 +91,12 @@
       "relation": "manyToMany",
       "target": "api::department.department",
       "inversedBy": "users"
+    },
+    "institution": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::institution.institution",
+      "inversedBy": "users"
     }
   }
 }
